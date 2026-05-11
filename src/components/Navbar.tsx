@@ -11,6 +11,7 @@ export default function Navbar() {
     <nav style={{ display: 'flex', gap: '10px' }}>
       <Link href="/">Inicio</Link>
       <Link href="/contacto">Contacto</Link>
+      <Link href="/mi-cuenta">Mi cuenta</Link>
 
       {session ? (
         <>
