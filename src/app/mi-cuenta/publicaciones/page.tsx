@@ -1,9 +1,12 @@
-export default function PublicacionesPage() {
-  return (
-    <main>
-      <h1>Mis Publicaciones</h1>
+import { requireAuth } from '@/lib/requireAuth';
+import PublicacionesClient from './PublicacionesClient';
 
-      <p>Próximamente...</p>
-    </main>
-  );
+export default async function PublicacionesPage() {
+  const session = await requireAuth();
+
+  if (!session) {
+    return <p>No autorizado</p>;
+  }
+
+  return <PublicacionesClient />;
 }

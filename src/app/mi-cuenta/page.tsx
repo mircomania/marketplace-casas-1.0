@@ -1,14 +1,8 @@
-'use client';
-
+import { requireAuth } from '@/lib/requireAuth';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 
-export default function MiCuentaPage() {
-  const { data: session, status } = useSession();
-
-  if (status === 'loading') {
-    return <p>Cargando...</p>;
-  }
+export default async function MiCuentaPage() {
+  const session = await requireAuth();
 
   if (!session) {
     return <p>No autorizado</p>;
