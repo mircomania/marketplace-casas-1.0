@@ -1,16 +1,43 @@
 'use client';
 
 import { useFavorites } from '@/hooks/useFavorites';
-import { properties } from '@/lib/properties';
+import { useEffect, useState } from 'react';
+
+type Property = {
+  id: string;
+  title: string;
+  price: number;
+  mainImage: string;
+  secondImage: string;
+};
 
 export default function Home() {
   const { loading, saving, isFavorite, toggleFavorite } = useFavorites();
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [propertiesLoading, setPropertiesLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const res = await fetch('/api/properties');
+        const data = await res.json();
+
+        setProperties(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setPropertiesLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
 
   return (
     <main>
       <h1>Inicio Marketplace Casas</h1>
 
-      {loading && <p>Cargando favoritos...</p>}
+      {(loading || propertiesLoading) && <p>Cargando...</p>}
 
       <div>
         {properties.map((prop) => (
